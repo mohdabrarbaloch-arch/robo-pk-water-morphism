@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ROBO .PK | Karachi Lines — Automatic Water Pump &amp; Sensor Systems</title>
+<meta name="description" content="ROBO .PK | Karachi Lines — your expert partner in automated pumping solutions since 1998. Automatic water pump controllers, water sensors, dry-run protection and WiFi motor automation in Karachi." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --deep:#03101d;
+    --ocean:#062a44;
+    --ocean-2:#0a3a5c;
+    --teal:#0e7490;
+    --aqua:#22d3ee;
+    --cyan:#67e8f9;
+    --glass:rgba(255,255,255,0.07);
+    --glass-2:rgba(255,255,255,0.11);
+    --glass-brd:rgba(255,255,255,0.18);
+    --glass-brd-2:rgba(255,255,255,0.30);
+    --text:#eaf6ff;
+    --muted:#a6c8dd;
+    --shadow:0 18px 50px rgba(0,0,0,0.45);
+    --radius:26px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    color:var(--text);
+    background:var(--deep);
+    line-height:1.65;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* ---------- LIQUID BACKGROUND ---------- */
+  .bg{position:fixed;inset:0;z-index:-2;overflow:hidden;
+    background:
+      radial-gradient(1200px 800px at 15% 10%, #0a3a5c 0%, transparent 60%),
+      radial-gradient(1000px 700px at 85% 20%, #0e7490 0%, transparent 55%),
+      radial-gradient(900px 900px at 50% 100%, #062a44 0%, transparent 60%),
+      linear-gradient(160deg,#03101d 0%,#052033 45%,#03101d 100%);
+  }
+  .blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;mix-blend-mode:screen;}
+  .blob.b1{width:520px;height:520px;top:-120px;left:-100px;background:radial-gradient(circle,#22d3ee,transparent 70%);animation:drift1 22s ease-in-out infinite;}
+  .blob.b2{width:460px;height:460px;top:30%;right:-140px;background:radial-gradient(circle,#0ea5e9,transparent 70%);animation:drift2 26s ease-in-out infinite;}
+  .blob.b3{width:600px;height:600px;bottom:-200px;left:25%;background:radial-gradient(circle,#0891b2,transparent 70%);animation:drift3 30s ease-in-out infinite;}
+  @keyframes drift1{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(80px,60px) scale(1.15);}}
+  @keyframes drift2{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-70px,50px) scale(1.1);}}
+  @keyframes drift3{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(60px,-60px) scale(1.12);}}
+  .bubbles{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;}
+  .bubbles span{position:absolute;bottom:-60px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), rgba(103,232,249,.12) 60%, transparent 70%);
+    border:1px solid rgba(255,255,255,.18);animation:rise linear infinite;}
+  @keyframes rise{0%{transform:translateY(0) translateX(0);opacity:0;}10%{opacity:.7;}90%{opacity:.5;}100%{transform:translateY(-115vh) translateX(40px);opacity:0;}}
+  /* ---------- LAYOUT ---------- */
+  .wrap{width:min(1180px,92vw);margin:0 auto;}
+  section{padding:96px 0;position:relative;}
+  .glass{
+    background:var(--glass);
+    backdrop-filter:blur(20px) saturate(150%);
+    -webkit-backdrop-filter:blur(20px) saturate(150%);
+    border:1px solid var(--glass-brd);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.14);
+  }
+  /* ---------- NAV ---------- */
+  header{position:sticky;top:0;z-index:50;padding:14px 0;}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:18px;
+    padding:12px 22px;border-radius:20px;
+    background:rgba(6,26,42,.55);backdrop-filter:blur(18px) saturate(150%);
+    -webkit-backdrop-filter:blur(18px) saturate(150%);
+    border:1px solid var(--glass-brd);box-shadow:0 10px 30px rgba(0,0,0,.35);}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.4px;font-size:1.12rem;}
+  .brand .mark{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;
+    background:linear-gradient(140deg,#22d3ee,#0e7490);box-shadow:0 8px 22px rgba(34,211,238,.4);}
+  .brand .mark svg{width:22px;height:22px;}
+  .brand small{display:block;font-size:.66rem;font-weight:500;color:var(--muted);letter-spacing:1.6px;text-transform:uppercase;}
+  .nav-links{display:flex;gap:26px;align-items:center;}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:.94rem;font-weight:500;transition:color .25s;}
+  .nav-links a:hover{color:var(--cyan);}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:12px 24px;border-radius:14px;
+    font-weight:600;font-size:.95rem;text-decoration:none;cursor:pointer;border:1px solid transparent;
+    transition:transform .25s, box-shadow .25s, background .25s;}
+  .btn svg{width:17px;height:17px;}
+  .btn-primary{background:linear-gradient(135deg,#22d3ee,#0891b2);color:#03131f;
+    box-shadow:0 12px 30px rgba(34,211,238,.35);}
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(34,211,238,.5);}
+  .btn-ghost{background:var(--glass-2);color:var(--text);border-color:var(--glass-brd-2);}
+  .btn-ghost:hover{transform:translateY(-3px);background:rgba(255,255,255,.18);}
+  .nav .btn{padding:10px 18px;}
+  /* ---------- HERO ---------- */
+  .hero{padding:70px 0 90px;}
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center;}
+  .badge{display:inline-flex;align-items:center;gap:9px;padding:8px 16px;border-radius:999px;
+    background:var(--glass-2);border:1px solid var(--glass-brd-2);font-size:.8rem;font-weight:600;
+    letter-spacing:.6px;text-transform:uppercase;color:var(--cyan);margin-bottom:22px;}
+  .badge .dot{width:8px;height:8px;border-radius:50%;background:#22d3ee;box-shadow:0 0 12px #22d3ee;animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.35);}}
+  h1{font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.08;font-weight:800;letter-spacing:-1px;margin-bottom:20px;}
+  h1 .grad{background:linear-gradient(120deg,#67e8f9,#22d3ee 45%,#38bdf8);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .lead{font-size:1.1rem;color:var(--muted);max-width:560px;margin-bottom:32px;}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:38px;}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .stat{padding:18px 16px;border-radius:18px;text-align:center;
+    background:var(--glass);border:1px solid var(--glass-brd);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+  .stat b{display:block;font-size:1.5rem;font-weight:800;color:var(--cyan);}
+  .stat span{font-size:.78rem;color:var(--muted);letter-spacing:.4px;}
+  .hero-visual{padding:22px;position:relative;}
+  .hero-visual img{width:100%;border-radius:18px;display:block;box-shadow:0 20px 50px rgba(0,0,0,.5);}
+  .hero-visual .tag{position:absolute;bottom:34px;left:34px;padding:10px 16px;border-radius:14px;
+    background:rgba(3,17,29,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    border:1px solid var(--glass-brd-2);font-size:.82rem;font-weight:600;color:var(--cyan);}
+  /* ---------- SECTION HEADINGS ---------- */
+  .sec-head{text-align:center;max-width:720px;margin:0 auto 56px;}
+  .sec-head .kicker{font-size:.8rem;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:var(--aqua);margin-bottom:14px;display:block;}
+  .sec-head h2{font-size:clamp(1.8rem,3.6vw,2.6rem);font-weight:800;letter-spacing:-.6px;margin-bottom:16px;}
+  .sec-head p{color:var(--muted);font-size:1.03rem;}
+  /* ---------- ABOUT ---------- */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:stretch;}
+  .about-card{padding:38px;}
+  .about-card h3{font-size:1.5rem;font-weight:700;margin-bottom:16px;}
+  .about-card p{color:var(--muted);margin-bottom:16px;}
+  .about-list{list-style:none;display:grid;gap:12px;margin-top:22px;}
+  .about-list li{display:flex;gap:12px;align-items:flex-start;font-size:.96rem;color:var(--text);}
+  .about-list svg{width:20px;height:20px;flex:0 0 20px;margin-top:3px;color:var(--aqua);}
+  .info-panel{padding:34px;display:flex;flex-direction:column;gap:18px;}
+  .info-row{display:flex;justify-content:space-between;gap:16px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.09);}
+  .info-row:last-child{border-bottom:none;padding-bottom:0;}
+  .info-row .k{color:var(--muted);font-size:.9rem;}
+  .info-row .v{font-weight:600;text-align:right;font-size:.95rem;}
+  /* ---------- PRODUCTS ---------- */
+  .prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px;}
+  .prod{padding:18px;display:flex;flex-direction:column;transition:transform .35s, box-shadow .35s, border-color .35s;}
+  .prod:hover{transform:translateY(-8px);border-color:var(--glass-brd-2);box-shadow:0 26px 60px rgba(0,0,0,.55);}
+  .prod .thumb{position:relative;border-radius:18px;overflow:hidden;background:rgba(255,255,255,.05);aspect-ratio:1/1;}
+  .prod .thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s;}
+  .prod:hover .thumb img{transform:scale(1.06);}
+  .prod .chip{position:absolute;top:12px;left:12px;padding:6px 12px;border-radius:999px;font-size:.7rem;font-weight:700;
+    letter-spacing:.6px;text-transform:uppercase;background:rgba(3,17,29,.75);backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);border:1px solid var(--glass-brd-2);color:var(--cyan);}
+  .prod .body{padding:20px 8px 8px;}
+  .prod h3{font-size:1.12rem;font-weight:700;margin-bottom:9px;}
+  .prod p{font-size:.9rem;color:var(--muted);}
+  .prod .price{margin-top:14px;font-size:.86rem;font-weight:700;color:var(--aqua);}
+  /* ---------- FEATURES ---------- */
+  .feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;}
+  .feat{padding:30px;transition:transform .35s, border-color .35s;}
+  .feat:hover{transform:translateY(-6px);border-color:var(--glass-brd-2);}
+  .feat .ico{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;margin-bottom:20px;
+    background:linear-gradient(140deg,rgba(34,211,238,.28),rgba(14,116,144,.28));border:1px solid var(--glass-brd-2);}
+  .feat .ico svg{width:26px;height:26px;color:var(--cyan);}
+  .feat h3{font-size:1.1rem;font-weight:700;margin-bottom:10px;}
+  .feat p{font-size:.92rem;color:var(--muted);}
+  /* ---------- CONTACT ---------- */
+  .contact-card{padding:52px;display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center;}
+  .contact-card h2{font-size:clamp(1.7rem,3.4vw,2.4rem);font-weight:800;margin-bottom:16px;letter-spacing:-.5px;}
+  .contact-card p{color:var(--muted);margin-bottom:26px;}
+  .contact-actions{display:flex;gap:14px;flex-wrap:wrap;}
+  .contact-side{display:grid;gap:16px;}
+  .cbox{padding:22px;border-radius:18px;background:var(--glass-2);border:1px solid var(--glass-brd);}
+  .cbox .lbl{font-size:.76rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--aqua);font-weight:700;margin-bottom:7px;}
+  .cbox .val{font-size:1.12rem;font-weight:700;}
+  .cbox .sub{font-size:.84rem;color:var(--muted);margin-top:3px;}
+  /* ---------- FOOTER ---------- */
+  footer{padding:44px 0 60px;border-top:1px solid rgba(255,255,255,.08);margin-top:40px;}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;}
+  .foot p{color:var(--muted);font-size:.86rem;}
+  .foot .src{font-size:.78rem;color:#6f93a8;max-width:520px;}
+  /* ---------- REVEAL ---------- */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.3,1), transform .8s cubic-bezier(.2,.7,.3,1);}
+  .reveal.in{opacity:1;transform:none;}
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    .hero-grid,.about-grid,.contact-card{grid-template-columns:1fr;}
+    .nav-links{display:none;}
+    section{padding:70px 0;}
+    .contact-card{padding:34px;}
+    .about-card,.info-panel{padding:28px;}
+  }
+  @media (max-width:520px){
+    .stats{grid-template-columns:1fr;}
+    .hero-cta .btn{width:100%;justify-content:center;}
+    .nav{padding:10px 14px;}
+    .brand small{display:none;}
+  }
+</style>
+</head>
+<body>
+<div class="bg">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+</div>
+<div class="bubbles" id="bubbles"></div>
+
+<header>
+  <div class="wrap">
+    <nav class="nav">
+      <div class="brand">
+        <span class="mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#03131f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5C12 2.5 5 10 5 14.5a7 7 0 0 0 14 0C19 10 12 2.5 12 2.5z"/></svg>
+        </span>
+        <span>ROBO .PK<small>Karachi Lines</small></span>
+      </div>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#products">Products</a>
+        <a href="#features">Why Us</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <a class="btn btn-primary" href="tel:03132875775">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+        Call Now
+      </a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <span class="badge"><span class="dot"></span>Automated Pumping Solutions · Since 1998</span>
+      <h1>Make Your Water Motor <span class="grad">Fully Automatic</span></h1>
+      <p class="lead">ROBO .PK | Karachi Lines designs and installs sensor-based automatic water pump controllers, water-level sensors and WiFi motor automation — so you never worry about tank overflow, dry-run burnout or filling water again.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="tel:03132875775">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+          0313 287 5775
+        </a>
+        <a class="btn btn-ghost" href="#products">View Products</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>25+</b><span>Years in Automation</span></div>
+        <div class="stat"><b>4000 ft</b><span>Bore Depth Support</span></div>
+        <div class="stat"><b>100%</b><span>Sensor-Based Systems</span></div>
+      </div>
+    </div>
+    <div class="hero-visual glass reveal">
+      <img src="images/product_9.jpg" alt="ROBO Automatic WiFi water pump controller with Smart Life App control" />
+      <span class="tag">WiFi + App Control</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">Who We Are</span>
+      <h2>Karachi's Water-Automation Specialists</h2>
+      <p>An electronics and automation business solving everyday water problems for homes, buildings and construction sites across Karachi.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-card glass reveal">
+        <h3>Your Expert Partner in Automated Pumping</h3>
+        <p>ROBO .PK | Karachi Lines has been working in the automation field for almost 25 years. We build and install complete automatic water-management systems that take the manual work — and the risk — out of running a water motor.</p>
+        <p>From sensor-based dry-run protection for submersible pumps to WiFi controllers you operate from your phone, every system is engineered to protect your motor, save water and end the daily "is the tank full?" guesswork.</p>
+        <ul class="about-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Sensor-based systems — not timers</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Dry-run protection for submersible pumps</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Installation included with every system</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Trusted by homeowners, builders &amp; the trade</li>
+        </ul>
+      </div>
+      <div class="info-panel glass reveal">
+        <div class="info-row"><span class="k">Business</span><span class="v">ROBO .PK | Karachi Lines</span></div>
+        <div class="info-row"><span class="k">Category</span><span class="v">Electronics Company</span></div>
+        <div class="info-row"><span class="k">Speciality</span><span class="v">Automatic Pumping Solutions</span></div>
+        <div class="info-row"><span class="k">Established</span><span class="v">Since 1998</span></div>
+        <div class="info-row"><span class="k">Location</span><span class="v">Karachi, Pakistan</span></div>
+        <div class="info-row"><span class="k">Phone / WhatsApp</span><span class="v">0313 287 5775</span></div>
+        <div class="info-row"><span class="k">Also reachable</span><span class="v">0300 211 2459 · 0345 209 5524</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">Our Products</span>
+      <h2>Automatic Water Systems &amp; Controllers</h2>
+      <p>Sensor-based controllers, dry-run protection units and WiFi automation — built to protect your pump and end manual water filling.</p>
+    </div>
+    <div class="prod-grid">
+      <article class="prod glass reveal">
+        <div class="thumb"><span class="chip">Controller</span><img src="images/product_1.jpg" alt="ROBO Automatic Motor / Pump Water Sensor Drive Unit" loading="lazy" /></div>
+        <div class="body">
+          <h3>Water Sensor Drive Unit</h3>
+          <p>ROBO Automatic Motor / Pump Water Sensor Drive Unit with dry-run protection for submersible pumps. LED status for Power, Tank Full, Water Incoming and Motor On.</p>
+        </div>
+      </article>
+      <article class="prod glass reveal">
+        <div class="thumb"><span class="chip">Submersible</span><img src="images/product_2.jpg" alt="Submersible deep well water pump system with control box" loading="lazy" /></div>
+        <div class="body">
+          <h3>Submersible Deep-Well Pump Set</h3>
+          <p>Complete submersible deep-well pump system with stainless-steel pump body, control box and power cable — paired with ROBO automation for hands-free operation.</p>
+        </div>
+      </article>
+      <article class="prod glass reveal">
+        <div class="thumb"><span class="chip">Sensor System</span><img src="images/product_3.jpg" alt="ROBO Automatic water pump controller and sensor system" loading="lazy" /></div>
+        <div class="body">
+          <h3>Automatic Pump Controller + Sensor</h3>
+          <p>Sensor-based controller for submersible pumps with dry-run protection. A true water-detection system — not a timer — with auto/manual toggle and restart switch.</p>
+        </div>
+      </article>
+      <article class="prod glass reveal">
+        <div class="thumb"><span class="chip">Dry-Run</span><img src="images/product_4.jpg" alt="Robo Automatic submersible pump dry run protection controller" loading="lazy" /></div>
+        <div class="body">
+          <h3>Submersible Dry-Run Protection</h3>
+          <p>Prevents pump burnout by automatically stopping the motor when no water is sensed — supports bores up to 4000 feet. Includes Auto/Manual and Timer modes.</p>
+        </div>
+      </article>
+      <article class="prod glass reveal">
+        <div class="thumb"><span class="chip">Motor Automatic</span><img src="images/product_5.jpg" alt="ROBO Motor Automatic water pump controller" loading="lazy" /></div>
+        <div class="body">
+          <h3>ROBO Motor Automatic</h3>
+          <p>Smart motor automation that removes the daily ON/OFF routine. Restart switch, Auto/Manual control and clear status indicators for total peace of mind.</p>
+        </div>
+      </article>
+      <article class="prod glass reveal">
+        <div class="thumb"><span class="chip">Complete System</span><img src="images/product_6.jpg" alt="ROBO Motor Automatics complete pump and control system" loading="lazy" /></div>
+        <div class="body">
+          <h3>Complete Pump Automation Kit</h3>
+          <p>Full automation package combining the ROBO control unit with submersible, centrifugal and belt-driven pumps — the best solution for your life.</p>
+        </div>
+      </article>
+      <article class="prod glass reveal">
+        <div class="thumb"><span class="chip">Digital</span><img src="images/product_7.jpg" alt="ROBO Automatic digital pump controller drive unit" loading="lazy" /></div>
+        <div class="body">
+          <h3>Digital Pump Controller</h3>
+          <p>Wall-mounted digital drive unit with Dry Run, Overload and Trip protection — technology for a smarter tomorrow, guarding your motor around the clock.</p>
+        </div>
+      </article>
+      <article class="prod glass reveal">
+        <div class="thumb"><span class="chip">Auto On/Off</span><img src="images/product_8.jpg" alt="ROBO Automatic complete water motor system with tank full option" loading="lazy" /></div>
+        <div class="body">
+          <h3>Complete Automatic Water System</h3>
+          <p>Automatic On, Automatic Off, Dry-Run Protection and a Tank-Full option — no more manual operation. The complete automatic system for your water motor.</p>
+        </div>
+      </article>
+      <article class="prod glass reveal">
+        <div class="thumb"><span class="chip">WiFi + App</span><img src="images/product_9.jpg" alt="ROBOMATIC WiFi water pump controller with Smart Life App" loading="lazy" /></div>
+        <div class="body">
+          <h3>ROBOMATIC WiFi Controller</h3>
+          <p>Connect to the Smart Life App and control your motor from your mobile — remote ON/OFF, real-time water-level monitoring and automatic water sensing.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">Why Choose Us</span>
+      <h2>Built to Protect Your Motor &amp; Save Your Water</h2>
+      <p>Every ROBO system is engineered around one goal: a water motor that runs itself, safely.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat glass reveal">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5C12 2.5 5 10 5 14.5a7 7 0 0 0 14 0C19 10 12 2.5 12 2.5z"/></svg></div>
+        <h3>Sensor-Based, Not Timers</h3>
+        <p>Real water-detection sensors decide when to run — far more reliable than old-fashioned timers that waste water and burn motors.</p>
+      </div>
+      <div class="feat glass reveal">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>Dry-Run Protection</h3>
+        <p>Automatically cuts power when no water is sensed, preventing the pump burnout that costs thousands to replace.</p>
+      </div>
+      <div class="feat glass reveal">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div>
+        <h3>WiFi &amp; App Control</h3>
+        <p>Operate and monitor your motor from your phone with the Smart Life App — from anywhere, at any time.</p>
+      </div>
+      <div class="feat glass reveal">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg></div>
+        <h3>No More Manual ON/OFF</h3>
+        <p>Automatic On and Automatic Off with a Tank-Full option — end the daily routine of switching the motor by hand.</p>
+      </div>
+      <div class="feat glass reveal">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v6c0 5 3.8 8.4 9 9 5.2-.6 9-4 9-9V7l-9-5z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3>25 Years of Experience</h3>
+        <p>Nearly a quarter-century in the automation field, with systems proven on homes, buildings and construction sites.</p>
+      </div>
+      <div class="feat glass reveal">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.3 2.3-2-2 2.3-2.3z"/></svg></div>
+        <h3>Installation Included</h3>
+        <p>Professional installation comes with the system, so it is set up correctly and running the day it arrives.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-card glass reveal">
+      <div>
+        <span class="kicker" style="font-size:.8rem;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:var(--aqua);display:block;margin-bottom:14px;">Get In Touch</span>
+        <h2>Ready to Automate Your Water Motor?</h2>
+        <p>Call or WhatsApp us today for a free consultation and installation. We serve homes, buildings and construction sites across Karachi.</p>
+        <div class="contact-actions">
+          <a class="btn btn-primary" href="tel:03132875775">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+            Call 0313 287 5775
+          </a>
+          <a class="btn btn-ghost" href="https://wa.me/923132875775" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.4L3 21l2.2-5.6A8.4 8.4 0 1 1 21 11.5z"/></svg>
+            WhatsApp Us
+          </a>
+        </div>
+      </div>
+      <div class="contact-side">
+        <div class="cbox">
+          <div class="lbl">Primary Phone</div>
+          <div class="val">0313 287 5775</div>
+          <div class="sub">Call or WhatsApp — installation included</div>
+        </div>
+        <div class="cbox">
+          <div class="lbl">Other Numbers</div>
+          <div class="val">0300 211 2459</div>
+          <div class="sub">0345 209 5524</div>
+        </div>
+        <div class="cbox">
+          <div class="lbl">Service Area</div>
+          <div class="val">Karachi, Pakistan</div>
+          <div class="sub">Homes · Buildings · Construction sites</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <div class="brand" style="margin-bottom:10px;">
+        <span class="mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#03131f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5C12 2.5 5 10 5 14.5a7 7 0 0 0 14 0C19 10 12 2.5 12 2.5z"/></svg>
+        </span>
+        <span>ROBO .PK<small>Karachi Lines</small></span>
+      </div>
+      <p>Your expert partner in automated pumping solutions. Since 1998.</p>
+    </div>
+    <p class="src">Page data &amp; product images sourced from the public Facebook page <em>ROBO .PK | Karachi Lines</em> (facebook.com/profile.php?id=61552661620882), collected 2026-11-07. This is an independent showcase built from publicly available page content.</p>
+  </div>
+</footer>
+
+<script>
+  // Floating bubbles
+  (function(){
+    var host = document.getElementById('bubbles');
+    if(!host) return;
+    var n = 16;
+    for(var i=0;i<n;i++){
+      var s = document.createElement('span');
+      var size = 8 + Math.random()*34;
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
+      s.style.left = (Math.random()*100) + '%';
+      s.style.animationDuration = (12 + Math.random()*16) + 's';
+      s.style.animationDelay = (-Math.random()*20) + 's';
+      host.appendChild(s);
+    }
+  })();
+
+  // Scroll reveal
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){
+      els.forEach(function(e){ e.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+    els.forEach(function(e){ io.observe(e); });
+  })();
+</script>
+</body>
+</html>
